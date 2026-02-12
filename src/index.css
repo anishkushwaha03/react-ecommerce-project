@@ -1,9 +1,9 @@
-:root {
+/* :root {
   background-color: #242424;
-}
+} */
 body {
   font-family: Roboto, Arial;
-  color: white;
+  color: black;
   /* The <body> element has a default margin of 8px
      on all sides. This removes the default margins. */
   margin: 0;
