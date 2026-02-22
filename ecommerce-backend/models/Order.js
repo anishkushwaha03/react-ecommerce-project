@@ -1,32 +1,27 @@
-import { DataTypes } from 'sequelize';
-import { sequelize } from './index.js';
+import mongoose from 'mongoose';
+import crypto from 'crypto';
 
-export const Order = sequelize.define('Order', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true
+const orderSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    default: () => crypto.randomUUID()
   },
   orderTimeMs: {
-    type: DataTypes.BIGINT,
-    allowNull: false
+    type: Number, // Mongoose uses Number for Sequelize's BIGINT
+    required: true
   },
   totalCostCents: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+    type: Number,
+    required: true
   },
   products: {
-    type: DataTypes.JSON,
-    allowNull: false
-  },
-  createdAt: {
-    type: DataTypes.DATE(3)
-  },
-  updatedAt: {
-    type: DataTypes.DATE(3)
-  },
-}, {
-  defaultScope: {
-    order: [['createdAt', 'ASC']]
+    type: Array, // Natively handles JSON arrays
+    required: true
   }
+}, {
+  timestamps: true,
+  toJSON: { virtuals: true },
+  id: true
 });
+
+export const Order = mongoose.model('Order', orderSchema);

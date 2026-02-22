@@ -4,28 +4,40 @@ import { Product } from '../models/Product.js';
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-  const search = req.query.search;
+  try {
+    const search = req.query.search;
+    let products;
 
-  let products;
-  if (search) {
-    products = await Product.findAll();
+    if (search) {
+      // Create a case-insensitive regular expression for the search term
+      const searchRegex = new RegExp(search, 'i');
 
-    // Filter products by case-insensitive search on name or keywords
-    const lowerCaseSearch = search.toLowerCase();
+      // Query MongoDB directly to find matches in 'name' OR 'keywords'
+      products = await Product.find({
+        $or: [
+          { name: searchRegex },
+          { keywords: searchRegex }
+        ]
+      }).sort({ createdAt: 1 }); // Mimics your Sequelize defaultScope order
+    } else {
+      // Find all products if no search query exists
+      products = await Product.find().sort({ createdAt: 1 });
+    }
 
-    products = products.filter(product => {
-      const nameMatch = product.name.toLowerCase().includes(lowerCaseSearch);
-
-      const keywordsMatch = product.keywords.some(keyword => keyword.toLowerCase().includes(lowerCaseSearch));
-
-      return nameMatch || keywordsMatch;
+    // Map the results to ensure the 'id' property matches the frontend expectations
+    const formattedProducts = products.map(product => {
+      const productObj = product.toJSON();
+      productObj.id = productObj._id;
+      delete productObj._id;
+      delete productObj.__v; // Remove Mongoose version key
+      return productObj;
     });
 
-  } else {
-    products = await Product.findAll();
+    res.json(formattedProducts);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ error: 'Failed to fetch products' });
   }
-
-  res.json(products);
 });
 
 export default router;

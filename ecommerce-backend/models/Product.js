@@ -1,46 +1,36 @@
-import { DataTypes } from 'sequelize';
-import { sequelize } from './index.js';
+import mongoose from 'mongoose';
+import crypto from 'crypto';
 
-export const Product = sequelize.define('Product', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true
+const productSchema = new mongoose.Schema({
+  _id: { 
+    type: String, 
+    default: () => crypto.randomUUID() 
   },
   image: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   name: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
   rating: {
-    type: DataTypes.JSON,
-    allowNull: false
+    stars: { type: Number, required: true },
+    count: { type: Number, required: true }
   },
   priceCents: {
-    type: DataTypes.INTEGER,
-    allowNull: false
+    type: Number,
+    required: true
   },
+  // Mongoose natively supports arrays, so no getters/setters are needed
   keywords: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    get() {
-      return this.getDataValue('keywords').split(',');
-    },
-    set(val) {
-      this.setDataValue('keywords', val.join(','));
-    }
-  },
-  createdAt: {
-    type: DataTypes.DATE(3)
-  },
-  updatedAt: {
-    type: DataTypes.DATE(3)
-  },
-}, {
-  defaultScope: {
-    order: [['createdAt', 'ASC']]
+    type: [String],
+    required: true
   }
+}, { 
+  timestamps: true, // Automatically handles createdAt and updatedAt
+  toJSON: { virtuals: true }, 
+  id: true 
 });
+
+export const Product = mongoose.model('Product', productSchema);
