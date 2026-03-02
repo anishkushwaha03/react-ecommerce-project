@@ -4,6 +4,7 @@ import './checkout-header.css';
 import './CheckoutPage.css';
 import { OrderSummary } from './orderSummary';
 import { PaymentSummary } from './PaymentSummary';
+import { Link } from 'react-router';
 
 export function CheckoutPage({ cart, loadCart }) {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
@@ -47,15 +48,15 @@ export function CheckoutPage({ cart, loadCart }) {
       <div className="checkout-header">
         <div className="header-content">
           <div className="checkout-header-left-section">
-            <a href="/">
+            <Link to="/" className="header-link">
               <img className="logo" src="images/logo.png" />
               <img className="mobile-logo" src="images/mobile-logo.png" />
-            </a>
+            </Link>
           </div>
 
           <div className="checkout-header-middle-section">
-            Checkout (<a className="return-to-home-link"
-              href="/"> {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}</a>)
+            Checkout (<Link to="/" className="return-to-home-link"
+            > {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}</Link>)
           </div>
 
           <div className="checkout-header-right-section">
