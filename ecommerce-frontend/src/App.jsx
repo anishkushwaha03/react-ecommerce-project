@@ -9,12 +9,40 @@ import { LoginPage } from './pages/auth/LoginPage';
 import { SignupPage } from './pages/auth/SignupPage';
 import './App.css'
 
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 function App() {
   const [cart, setCart] = useState([]);
 
   const loadCart = async () => {
-    const response = await axios.get('/api/cart-items?expand=product');
-    setCart(response.data);
+    if (!localStorage.getItem('token')) {
+      setCart([]);
+      return;
+    }
+
+    try {
+      const response = await axios.get('/api/cart-items?expand=product');
+      setCart(response.data);
+    } catch (error) {
+      console.error("Error loading cart:", error);
+    }
   }
 
   useEffect(() => {

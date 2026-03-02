@@ -1,22 +1,34 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 export function Product({ product, loadCart }) {
   const [quantity, setQuantity] = useState(1);
   const [addedMessageVisible, setAddedMessageVisible] = useState(false);
+  const navigate = useNavigate();
 
   const addToCart = async () => {
-    await axios.post('/api/cart-items', {
-      productId: product.id,
-      quantity: quantity
-    });
-    await loadCart();
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+      return;
+    }
 
-    setAddedMessageVisible(true);
+    try {
+      await axios.post('/api/cart-items', {
+        productId: product.id,
+        quantity: quantity
+      });
+      await loadCart();
 
-    setTimeout(() => {
-      setAddedMessageVisible(false);
-    }, 2000);
+      setAddedMessageVisible(true);
+
+      setTimeout(() => {
+        setAddedMessageVisible(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+      alert("Could not add item to cart.");
+    }
   };
 
   const selectQuantity = (event) => {

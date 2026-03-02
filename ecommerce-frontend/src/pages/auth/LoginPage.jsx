@@ -23,6 +23,7 @@ export function LoginPage() {
         alert(data.error);
       }
     } catch (err) {
+      console.log(err);
       alert('Login failed');
     }
   };

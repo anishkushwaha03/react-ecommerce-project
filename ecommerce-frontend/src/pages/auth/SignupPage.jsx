@@ -24,6 +24,7 @@ export function SignupPage() {
         alert(data.error);
       }
     } catch (err) {
+      console.log(err);
       alert('Signup failed');
     }
   };
