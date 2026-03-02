@@ -42,6 +42,11 @@ app.use('/api/payment-summary', paymentSummaryRoutes);
 // Serve static files from the dist folder
 app.use(express.static(path.join(__dirname, 'dist')));
 
+//Catch-all route for unmatched API requests
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API route not found' });
+});
+
 // Catch-all route to serve index.html for any unmatched routes
 app.get('*', (req, res) => {
   const indexPath = path.join(__dirname, 'dist', 'index.html');

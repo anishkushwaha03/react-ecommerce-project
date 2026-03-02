@@ -55,28 +55,35 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Cart is empty' });
     }
 
-    let totalCostCents = 0;
-    const products = await Promise.all(cartItems.map(async (item) => {
+    const productsWithCosts = await Promise.all(cartItems.map(async (item) => {
       const product = await Product.findById(item.productId);
       if (!product) throw new Error(`Product not found: ${item.productId}`);
-      
+
       const deliveryOption = await DeliveryOption.findById(item.deliveryOptionId);
       if (!deliveryOption) throw new Error(`Invalid delivery option: ${item.deliveryOptionId}`);
-      
-      const productCost = product.priceCents * item.quantity;
-      const shippingCost = deliveryOption.priceCents;
-      totalCostCents += productCost + shippingCost;
-      
+
+      // Calculate the subtotal for this specific item and return it
+      const itemTotalCents = (product.priceCents * item.quantity) + deliveryOption.priceCents;
       const estimatedDeliveryTimeMs = Date.now() + deliveryOption.deliveryDays * 24 * 60 * 60 * 1000;
-      
+
       return {
         productId: item.productId,
         quantity: item.quantity,
-        estimatedDeliveryTimeMs
+        estimatedDeliveryTimeMs,
+        itemTotalCents
       };
     }));
 
-    totalCostCents = Math.round(totalCostCents * 1.1);
+    // Safely calculate the subtotal outside the async loop using reduce
+    const subtotalCents = productsWithCosts.reduce((sum, item) => sum + item.itemTotalCents, 0);
+    const totalCostCents = Math.round(subtotalCents * 1.1);
+
+    // Remove the temporary 'itemTotalCents' property before saving to the database
+    const products = productsWithCosts.map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity,
+      estimatedDeliveryTimeMs: item.estimatedDeliveryTimeMs
+    }));
 
     const order = await Order.create({
       orderTimeMs: Date.now(),
