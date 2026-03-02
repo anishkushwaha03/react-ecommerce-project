@@ -26,6 +26,13 @@ export function Header({ cart }) {
     }
   };
 
+  const token = localStorage.getItem('token');
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login'; // Force redirect to login
+  };
+
   return (
     <div className="header">
       <div className="left-section">
@@ -59,6 +66,12 @@ export function Header({ cart }) {
           <div className="cart-quantity">{totalQuantity}</div>
           <div className="cart-text">Cart</div>
         </Link>
+
+        {token ? (
+          <button onClick={handleLogout} className="logout-button">Logout</button>
+        ) : (
+          <Link to="/login" className="login-link">Login</Link>
+        )}
       </div>
     </div>
   );

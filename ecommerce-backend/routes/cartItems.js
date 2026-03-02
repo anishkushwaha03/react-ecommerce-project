@@ -2,8 +2,10 @@ import express from 'express';
 import { CartItem } from '../models/CartItem.js';
 import { Product } from '../models/Product.js';
 import { DeliveryOption } from '../models/DeliveryOption.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
+router.use(protect);
 
 // Helper function to format Mongoose document to frontend expected format
 const formatCartItem = (item) => {
@@ -18,7 +20,7 @@ router.get('/', async (req, res) => {
   try {
     const expand = req.query.expand;
     // .sort({ createdAt: 1 }) mimics your Sequelize defaultScope order
-    let cartItems = await CartItem.find().sort({ createdAt: 1 });
+    let cartItems = await CartItem.find({ userId: req.user }).sort({ createdAt: 1 });
 
     if (expand === 'product') {
       cartItems = await Promise.all(cartItems.map(async (item) => {
@@ -61,13 +63,13 @@ router.post('/', async (req, res) => {
     }
 
     // Mongoose query syntax replaces Sequelize's { where: { productId } }
-    let cartItem = await CartItem.findOne({ productId });
+    let cartItem = await CartItem.findOne({ productId, userId: req.user });
     
     if (cartItem) {
       cartItem.quantity += quantity;
       await cartItem.save();
     } else {
-      cartItem = await CartItem.create({ productId, quantity, deliveryOptionId: "1" });
+      cartItem = await CartItem.create({ userId: req.user, productId, quantity, deliveryOptionId: "1" });
     }
 
     res.status(201).json(formatCartItem(cartItem));
@@ -82,7 +84,7 @@ router.put('/:productId', async (req, res) => {
     const { productId } = req.params;
     const { quantity, deliveryOptionId } = req.body;
 
-    const cartItem = await CartItem.findOne({ productId });
+    const cartItem = await CartItem.findOne({ productId, userId: req.user });
     if (!cartItem) {
       return res.status(404).json({ error: 'Cart item not found' });
     }
@@ -114,7 +116,7 @@ router.delete('/:productId', async (req, res) => {
   try {
     const { productId } = req.params;
 
-    const cartItem = await CartItem.findOne({ productId });
+    const cartItem = await CartItem.findOne({ productId, userId: req.user });
     if (!cartItem) {
       return res.status(404).json({ error: 'Cart item not found' });
     }

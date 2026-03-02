@@ -2,6 +2,11 @@ import mongoose from 'mongoose';
 import crypto from 'crypto';
 
 const orderSchema = new mongoose.Schema({
+  userId: { // ADD THIS FIELD
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
   _id: {
     type: String,
     default: () => crypto.randomUUID()

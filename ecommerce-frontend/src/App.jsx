@@ -5,6 +5,8 @@ import { HomePage } from './pages/home/HomePage.jsx';
 import { CheckoutPage } from './pages/checkout/CheckoutPage.jsx';
 import { OrdersPage } from './pages/orders/OrdersPage.jsx';
 import { TrackingPage } from './pages/tracking/TrackingPage.jsx';
+import { LoginPage } from './pages/auth/LoginPage';
+import { SignupPage } from './pages/auth/SignupPage';
 import './App.css'
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
       <Route path="checkout" element={<CheckoutPage cart={cart} loadCart={loadCart} />}></Route>
       <Route path="orders" element={<OrdersPage cart={cart} />}></Route>
       <Route path="tracking" element={<TrackingPage />}></Route>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
     </Routes>
   );
 }

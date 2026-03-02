@@ -3,8 +3,10 @@ import { Order } from '../models/Order.js';
 import { Product } from '../models/Product.js';
 import { DeliveryOption } from '../models/DeliveryOption.js';
 import { CartItem } from '../models/CartItem.js';
+import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
+router.use(protect);
 
 const formatDocument = (doc) => {
   const obj = doc.toJSON ? doc.toJSON() : doc;
@@ -20,7 +22,7 @@ router.get('/', async (req, res) => {
   try {
     const expand = req.query.expand;
     // Retrieve orders sorted by most recent
-    let orders = await Order.find().sort({ orderTimeMs: -1 });
+    let orders = await Order.find({ userId: req.user }).sort({ orderTimeMs: -1 });
 
     if (expand === 'products') {
       orders = await Promise.all(orders.map(async (order) => {
@@ -49,7 +51,7 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const cartItems = await CartItem.find();
+    const cartItems = await CartItem.find({ userId: req.user }); // Only get this user's cart
 
     if (cartItems.length === 0) {
       return res.status(400).json({ error: 'Cart is empty' });
@@ -86,13 +88,14 @@ router.post('/', async (req, res) => {
     }));
 
     const order = await Order.create({
+      userId: req.user, 
       orderTimeMs: Date.now(),
       totalCostCents,
       products
     });
 
     // Clear the cart
-    await CartItem.deleteMany({});
+    await CartItem.deleteMany({ userId: req.user }); // Only clear this user's cart
 
     res.status(201).json(formatDocument(order));
   } catch (error) {
@@ -106,7 +109,7 @@ router.get('/:orderId', async (req, res) => {
     const { orderId } = req.params;
     const expand = req.query.expand;
 
-    let order = await Order.findById(orderId);
+    let order = await Order.findOne({ _id: orderId, userId: req.user });
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }

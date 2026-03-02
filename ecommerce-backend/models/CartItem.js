@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const cartItemSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User'
+  },
   productId: {
     type: String, // Keeping as String to match the UUIDs from the Product model
     required: true,
@@ -15,10 +20,10 @@ const cartItemSchema = new mongoose.Schema({
     required: true,
     ref: 'DeliveryOption'
   }
-}, { 
+}, {
   timestamps: true,
   toJSON: { virtuals: true },
-  id: true 
+  id: true
 });
 
 export const CartItem = mongoose.model('CartItem', cartItemSchema);
