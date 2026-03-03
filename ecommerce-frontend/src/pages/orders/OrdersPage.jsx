@@ -1,17 +1,35 @@
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { useState, useEffect, Fragment } from 'react';
+import { useNavigate } from 'react-router';
 import { Header } from '../../components/Header.jsx';
 import './OrdersPage.css';
 
 export function OrdersPage({ cart }) {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('/api/orders?expand=products')
-      .then((response) => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  useEffect(() => {
+    // Wrap in an async function to use try/catch
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get('/api/orders?expand=products');
         setOrders(response.data);
-      });
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      }
+    };
+
+    // Only fetch if logged in
+    if (localStorage.getItem('token')) {
+      fetchOrders();
+    }
   }, []);
 
   return (
