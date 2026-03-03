@@ -2,13 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { sequelize } from './models/index.js';
+import { connectDB } from './models/index.js';
 import productRoutes from './routes/products.js';
 import deliveryOptionRoutes from './routes/deliveryOptions.js';
 import cartItemRoutes from './routes/cartItems.js';
 import orderRoutes from './routes/orders.js';
 import resetRoutes from './routes/reset.js';
 import paymentSummaryRoutes from './routes/paymentSummary.js';
+import authRoutes from './routes/auth.js';
 import { Product } from './models/Product.js';
 import { DeliveryOption } from './models/DeliveryOption.js';
 import { CartItem } from './models/CartItem.js';
@@ -38,9 +39,15 @@ app.use('/api/cart-items', cartItemRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reset', resetRoutes);
 app.use('/api/payment-summary', paymentSummaryRoutes);
+app.use('/api/auth', authRoutes); 
 
 // Serve static files from the dist folder
 app.use(express.static(path.join(__dirname, 'dist')));
+
+//Catch-all route for unmatched API requests
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ error: 'API route not found' });
+});
 
 // Catch-all route to serve index.html for any unmatched routes
 app.get('*', (req, res) => {
@@ -60,21 +67,24 @@ app.use((err, req, res, next) => {
 });
 /* eslint-enable no-unused-vars */
 
-// Sync database and load default data if none exist
-await sequelize.sync();
+// Connect to MongoDB Atlas
+await connectDB();
 
-const productCount = await Product.count();
+// Check if the database is empty and load default data if needed
+const productCount = await Product.countDocuments();
 if (productCount === 0) {
   const timestamp = Date.now();
 
   const productsWithTimestamps = defaultProducts.map((product, index) => ({
     ...product,
+    _id: product.id, // Map string ID to Mongoose _id
     createdAt: new Date(timestamp + index),
     updatedAt: new Date(timestamp + index)
   }));
 
   const deliveryOptionsWithTimestamps = defaultDeliveryOptions.map((option, index) => ({
     ...option,
+    _id: option.id,
     createdAt: new Date(timestamp + index),
     updatedAt: new Date(timestamp + index)
   }));
@@ -87,16 +97,18 @@ if (productCount === 0) {
 
   const ordersWithTimestamps = defaultOrders.map((order, index) => ({
     ...order,
+    _id: order.id,
     createdAt: new Date(timestamp + index),
     updatedAt: new Date(timestamp + index)
   }));
 
-  await Product.bulkCreate(productsWithTimestamps);
-  await DeliveryOption.bulkCreate(deliveryOptionsWithTimestamps);
-  await CartItem.bulkCreate(cartItemsWithTimestamps);
-  await Order.bulkCreate(ordersWithTimestamps);
+  // Use Mongoose insertMany instead of Sequelize bulkCreate
+  await Product.insertMany(productsWithTimestamps);
+  await DeliveryOption.insertMany(deliveryOptionsWithTimestamps);
+  await CartItem.insertMany(cartItemsWithTimestamps);
+  await Order.insertMany(ordersWithTimestamps);
 
-  console.log('Default data added to the database.');
+  console.log('Default data added to the MongoDB database.');
 }
 
 // Start server

@@ -4,22 +4,42 @@ import './checkout-header.css';
 import './CheckoutPage.css';
 import { OrderSummary } from './orderSummary';
 import { PaymentSummary } from './PaymentSummary';
+import { Link } from 'react-router';
 
 export function CheckoutPage({ cart, loadCart }) {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
   const [paymentSummary, setPaymentSummary] = useState(null);
 
   useEffect(() => {
-    const fetchCheckoutData = async () => {
-      let response = await axios.get('/api/delivery-options?expand=estimatedDeliveryTime');
-      setDeliveryOptions(response.data);
+    const fetchDeliveryOptions = async () => {
+      try {
+        const response = await axios.get('/api/delivery-options?expand=estimatedDeliveryTime');
+        setDeliveryOptions(response.data);
+      } catch (error) {
+        console.error("Error fetching delivery options:", error);
+      }
+    };
 
-      response = await axios.get('/api/payment-summary')
-      setPaymentSummary(response.data);
-    }
+    fetchDeliveryOptions();
+  }, []);
 
-    fetchCheckoutData();
+  useEffect(() => {
+    const fetchPaymentSummary = async () => {
+      try {
+        const response = await axios.get('/api/payment-summary');
+        setPaymentSummary(response.data);
+      } catch (error) {
+        console.error("Error fetching payment summary:", error);
+      }
+    };
+
+    fetchPaymentSummary();
   }, [cart]);
+
+  let totalQuantity = 0;
+  cart.forEach((cartItem) => {
+    totalQuantity += cartItem.quantity;
+  });
 
   return (
     <>
@@ -28,15 +48,15 @@ export function CheckoutPage({ cart, loadCart }) {
       <div className="checkout-header">
         <div className="header-content">
           <div className="checkout-header-left-section">
-            <a href="/">
+            <Link to="/" className="header-link">
               <img className="logo" src="images/logo.png" />
               <img className="mobile-logo" src="images/mobile-logo.png" />
-            </a>
+            </Link>
           </div>
 
           <div className="checkout-header-middle-section">
-            Checkout (<a className="return-to-home-link"
-              href="/">3 items</a>)
+            Checkout (<Link to="/" className="return-to-home-link"
+            > {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}</Link>)
           </div>
 
           <div className="checkout-header-right-section">
