@@ -37,52 +37,36 @@ export function Product({ product, loadCart }) {
   };
 
   return (
-    <div className="product-container">
-      <div className="product-image-container">
-        <img className="product-image"
-          src={product.image} />
+    <div className="flex flex-col border-b border-r border-gray-100 p-6">
+      <div className="mb-5 flex h-44 items-center justify-center">
+        <img className="max-h-full max-w-full rounded" src={product.image} alt={product.name} />
       </div>
 
-      <div className="product-name limit-text-to-2-lines">
-        {product.name}
+      <div className="mb-1 line-clamp-2 min-h-10">{product.name}</div>
+
+      <div className="mb-2 flex items-center">
+        <img className="mr-1.5 w-24" src={`images/ratings/rating-${product.rating.stars * 10}.png`} alt="rating" />
+        <div className="text-emerald-700">{product.rating.count}</div>
       </div>
 
-      <div className="product-rating-container">
-        <img className="product-rating-stars"
-          src={`images/ratings/rating-${product.rating.stars * 10}.png`} />
-        <div className="product-rating-count link-primary">
-          {product.rating.count}
-        </div>
-      </div>
+      <div className="mb-2 font-bold">₹{(product.priceCents / 100).toFixed(2)}</div>
 
-      <div className="product-price">
-        ₹{(product.priceCents / 100).toFixed(2)}
-      </div>
-
-      <div className="product-quantity-container">
-        <select value={quantity} onChange={selectQuantity}>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
+      <div className="mb-4">
+        <select className="rounded border border-gray-300 px-2 py-1" value={quantity} onChange={selectQuantity}>
+          {Array.from({ length: 10 }, (_, i) => i + 1).map((value) => (
+            <option key={value} value={value}>{value}</option>
+          ))}
         </select>
       </div>
 
-      <div className="product-spacer"></div>
+      <div className="flex-1" />
 
-      <div className="added-to-cart" style={{ opacity: addedMessageVisible ? 1 : 0 }}>
-        <img src="images/icons/checkmark.png" />
+      <div className={`mb-2 flex items-center text-emerald-700 transition-opacity ${addedMessageVisible ? 'opacity-100' : 'opacity-0'}`}>
+        <img className="mr-1.5 h-5" src="images/icons/checkmark.png" alt="added" />
         Added
       </div>
 
-      <button className="add-to-cart-button button-primary"
-        onClick={addToCart}>
+      <button className="rounded bg-emerald-700 px-3 py-2 text-white shadow hover:bg-emerald-600" onClick={addToCart}>
         Add to Cart
       </button>
     </div>

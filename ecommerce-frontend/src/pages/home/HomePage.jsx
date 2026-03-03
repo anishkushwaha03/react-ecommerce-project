@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Header } from '../../components/Header.jsx';
 import { ProductsGrid } from './ProductsGrid.jsx';
-import './HomePage.css';
+//import './HomePage.css';
 import { useSearchParams } from 'react-router';
 
 export function HomePage({ cart, loadCart }) {
@@ -31,16 +31,13 @@ export function HomePage({ cart, loadCart }) {
   return (
     <>
       <Header cart={cart} />
-
-      <div className="home-page">
+      <main className="pt-16">
         {products.length === 0 ? (
-          <p style={{ textAlign: 'center', marginTop: '40px', fontSize: '1.2rem' }}>
-            No products found matching "{searchQuery}"
-          </p>
+          <p className="mt-10 text-center text-lg">No products found matching "{searchQuery}"</p>
         ) : (
           <ProductsGrid products={products} loadCart={loadCart} />
         )}
-      </div>
+      </main>
     </>
   );
 }
