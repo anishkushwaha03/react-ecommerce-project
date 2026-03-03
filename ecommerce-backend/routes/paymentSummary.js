@@ -14,10 +14,21 @@ router.get('/', async (req, res) => {
     let productCostCents = 0;
     let shippingCostCents = 0;
 
+    const productIds = [...new Set(cartItems.map((item) => item.productId.toString()))];
+    const deliveryOptionIds = [...new Set(cartItems.map((item) => item.deliveryOptionId.toString()))];
+
+    const [products, deliveryOptions] = await Promise.all([
+      Product.find({ _id: { $in: productIds } }),
+      DeliveryOption.find({ _id: { $in: deliveryOptionIds } })
+    ]);
+
+    const productsById = new Map(products.map((product) => [product._id.toString(), product]));
+    const deliveryOptionsById = new Map(deliveryOptions.map((deliveryOption) => [deliveryOption._id.toString(), deliveryOption]));
+
     for (const item of cartItems) {
-      const product = await Product.findById(item.productId);
-      const deliveryOption = await DeliveryOption.findById(item.deliveryOptionId);
-      
+      const product = productsById.get(item.productId.toString());
+      const deliveryOption = deliveryOptionsById.get(item.deliveryOptionId.toString());
+
       // Safety check to ensure both exist before calculating
       if (product && deliveryOption) {
         totalItems += item.quantity;
