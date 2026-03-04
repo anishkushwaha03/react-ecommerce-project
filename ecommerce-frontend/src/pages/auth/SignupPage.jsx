@@ -23,6 +23,7 @@ export function SignupPage() {
       localStorage.setItem("token", data.token);
       navigate("/");
     } catch (err) {
+      console.error(err);
       alert("Signup failed");
     }
   };
