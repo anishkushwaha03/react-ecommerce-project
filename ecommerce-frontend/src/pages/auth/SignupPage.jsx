@@ -1,44 +1,78 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate, Link } from "react-router";
+import axios from "axios";
 
 export function SignupPage() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password }),
-      });
-      const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem('token', data.token); // Save Token!
-        navigate('/'); 
-      } else {
-        alert(data.error);
-      }
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/auth/register",
+        { name, email, password }
+      );
+
+      const data = response.data;
+
+      localStorage.setItem("token", data.token);
+      navigate("/");
     } catch (err) {
-      console.log(err);
-      alert('Signup failed');
+      alert("Signup failed");
     }
   };
 
   return (
-    <div style={{ padding: '50px', maxWidth: '400px', margin: 'auto' }}>
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button type="submit">Sign Up</button>
+    <div className="mx-auto mt-16 max-w-md p-8">
+      <h2 className="mb-4 text-3xl font-bold">Sign Up</h2>
+
+      <form onSubmit={handleSignup} className="flex flex-col gap-4">
+        <input
+          className="rounded border border-gray-300 px-3 py-2"
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+
+        <input
+          className="rounded border border-gray-300 px-3 py-2"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <input
+          className="rounded border border-gray-300 px-3 py-2"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        <button
+          className="rounded bg-emerald-700 px-3 py-2 text-white hover:bg-emerald-600"
+          type="submit"
+        >
+          Sign Up
+        </button>
       </form>
-      <p>Already have an account? <Link to="/login">Log in</Link></p>
+
+      <p className="mt-4">
+        Already have an account?{" "}
+        <Link className="text-emerald-700 underline" to="/login">
+          Log in
+        </Link>
+      </p>
     </div>
   );
 }
