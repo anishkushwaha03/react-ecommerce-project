@@ -11,8 +11,8 @@ export function PaymentSummary({ paymentSummary, loadCart }) {
   };
 
   return (
-    <div className="h-fit rounded border border-gray-200 bg-white p-4 shadow-sm">
-      <div className="mb-4 text-lg font-bold">Payment Summary</div>
+    <div className="h-fit rounded border border-gray-300 bg-white p-4">
+      <div className="mb-4 text-2xl font-bold">Payment Summary</div>
 
       {paymentSummary && (
         <>
@@ -30,7 +30,7 @@ export function PaymentSummary({ paymentSummary, loadCart }) {
             </div>
           </div>
 
-          <div className="mb-2 flex justify-between border-t pt-2 text-sm">
+          <div className="mb-2 flex justify-between border-t border-gray-300 pt-2 text-sm">
             <div>Total before tax:</div>
             <div>
               ₹{(paymentSummary.totalCostBeforeTaxCents / 100).toFixed(2)}
@@ -44,7 +44,7 @@ export function PaymentSummary({ paymentSummary, loadCart }) {
             </div>
           </div>
 
-          <div className="mb-4 flex justify-between border-t pt-2 font-bold text-red-700">
+          <div className="mb-4 flex justify-between border-t border-red-200 pt-2 text-2xl font-bold text-red-700">
             <div>Order total:</div>
             <div>
               ₹{(paymentSummary.totalCostCents / 100).toFixed(2)}
