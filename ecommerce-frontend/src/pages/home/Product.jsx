@@ -37,7 +37,7 @@ export function Product({ product, loadCart, imageLoading = 'lazy' }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[270px] rounded-2xl border border-neutral-700 bg-neutral-50 p-0 shadow-[10px_10px_0px_0px_rgba(0,0,0,0.14)]">
+    <div className="mx-auto w-full max-w-67.5 rounded-2xl border border-neutral-700 bg-neutral-50 p-0 shadow-[10px_10px_0px_0px_rgba(0,0,0,0.14)]">
       <div className="h-26 rounded-t-2xl bg-[#7b4738]" />
 
       <div className="relative -mt-20 px-5 pb-5">
