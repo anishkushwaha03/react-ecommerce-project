@@ -1,62 +1,64 @@
-import { useNavigate } from 'react-router' ;
-import axios from 'axios' ;
+import { useNavigate } from "react-router";
+import axios from "axios";
 
 export function PaymentSummary({ paymentSummary, loadCart }) {
-
   const navigate = useNavigate();
 
   const createOrder = async () => {
-    await axios.post('/api/orders');
+    await axios.post("/api/orders");
     await loadCart();
-    navigate('/orders');
+    navigate("/orders");
   };
 
-  return (<div className="payment-summary">
-    <div className="payment-summary-title">
-      Payment Summary
+  return (
+    <div className="h-fit rounded border border-gray-200 bg-white p-4 shadow-sm">
+      <div className="mb-4 text-lg font-bold">Payment Summary</div>
+
+      {paymentSummary && (
+        <>
+          <div className="mb-2 flex justify-between text-sm">
+            <div>Items ({paymentSummary.totalItems}):</div>
+            <div>
+              ₹{(paymentSummary.productCostCents / 100).toFixed(2)}
+            </div>
+          </div>
+
+          <div className="mb-2 flex justify-between text-sm">
+            <div>Shipping & handling:</div>
+            <div>
+              ₹{(paymentSummary.shippingCostCents / 100).toFixed(2)}
+            </div>
+          </div>
+
+          <div className="mb-2 flex justify-between border-t pt-2 text-sm">
+            <div>Total before tax:</div>
+            <div>
+              ₹{(paymentSummary.totalCostBeforeTaxCents / 100).toFixed(2)}
+            </div>
+          </div>
+
+          <div className="mb-2 flex justify-between text-sm">
+            <div>Estimated tax (10%):</div>
+            <div>
+              ₹{(paymentSummary.taxCents / 100).toFixed(2)}
+            </div>
+          </div>
+
+          <div className="mb-4 flex justify-between border-t pt-2 font-bold text-red-700">
+            <div>Order total:</div>
+            <div>
+              ₹{(paymentSummary.totalCostCents / 100).toFixed(2)}
+            </div>
+          </div>
+
+          <button
+            className="w-full rounded bg-emerald-700 px-3 py-2 text-white hover:bg-emerald-600"
+            onClick={createOrder}
+          >
+            Place your order
+          </button>
+        </>
+      )}
     </div>
-
-    {paymentSummary && (
-      <>
-        <div className="payment-summary-row">
-          <div>Items ({paymentSummary.totalItems}):</div>
-          <div className="payment-summary-money">
-            ₹{(paymentSummary.productCostCents / 100).toFixed(2)}
-          </div>
-        </div>
-
-        <div className="payment-summary-row">
-          <div>Shipping &amp; handling:</div>
-          <div className="payment-summary-money">
-            ₹{(paymentSummary.shippingCostCents / 100).toFixed(2)}
-          </div>
-        </div>
-
-        <div className="payment-summary-row subtotal-row">
-          <div>Total before tax:</div>
-          <div className="payment-summary-money">
-            ₹{(paymentSummary.totalCostBeforeTaxCents / 100).toFixed(2)}
-          </div>
-        </div>
-
-        <div className="payment-summary-row">
-          <div>Estimated tax (10%):</div>
-          <div className="payment-summary-money">
-            ₹{(paymentSummary.taxCents / 100).toFixed(2)}
-          </div>
-        </div>
-
-        <div className="payment-summary-row total-row">
-          <div>Order total:</div>
-          <div className="payment-summary-money">
-            ₹{(paymentSummary.totalCostCents / 100).toFixed(2)}
-          </div>
-        </div>
-
-        <button className="place-order-button button-primary" onClick={createOrder}>
-          Place your order
-        </button>
-      </>
-    )}
-  </div>);
+  );
 }

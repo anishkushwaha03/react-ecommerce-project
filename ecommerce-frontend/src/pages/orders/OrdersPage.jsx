@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { useState, useEffect, Fragment } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { Header } from '../../components/Header.jsx';
 //import './OrdersPage.css';
 
@@ -109,11 +109,11 @@ export function OrdersPage({ cart }) {
 
                     {/* Actions */}
                     <div>
-                      <a href="/tracking">
+                      <Link to="/tracking">
                         <button className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50">
                           Track package
                         </button>
-                      </a>
+                      </Link>
                     </div>
                   </Fragment>
                 ))}

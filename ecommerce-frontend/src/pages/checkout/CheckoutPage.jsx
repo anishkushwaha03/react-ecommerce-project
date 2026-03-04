@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import './checkout-header.css';
-import './CheckoutPage.css';
+//import './checkout-header.css';
+//import './CheckoutPage.css';
 import { OrderSummary } from './orderSummary';
 import { PaymentSummary } from './PaymentSummary';
 import { Link } from 'react-router';
@@ -36,43 +36,66 @@ export function CheckoutPage({ cart, loadCart }) {
     fetchPaymentSummary();
   }, [cart]);
 
-  let totalQuantity = 0;
-  cart.forEach((cartItem) => {
-    totalQuantity += cartItem.quantity;
-  });
+  const totalQuantity = cart.reduce((acc, cartItem) => acc + cartItem.quantity, 0);
 
   return (
     <>
       <title>Checkout</title>
 
-      <div className="checkout-header">
-        <div className="header-content">
-          <div className="checkout-header-left-section">
-            <Link to="/" className="header-link">
-              <img className="logo" src="images/logo.png" />
-              <img className="mobile-logo" src="images/mobile-logo.png" />
-            </Link>
-          </div>
+      <header className="fixed inset-x-0 top-0 z-20 flex h-16 items-center justify-between bg-white px-4 shadow-md">
 
-          <div className="checkout-header-middle-section">
-            Checkout (<Link to="/" className="return-to-home-link"
-            > {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}</Link>)
-          </div>
-
-          <div className="checkout-header-right-section">
-            <img src="images/icons/checkout-lock-icon.png" />
-          </div>
+        <div className="w-auto md:w-52">
+          <Link
+            to="/"
+            className="inline-block rounded border border-transparent p-2 hover:border-gray-300"
+          >
+            <img
+              className="hidden h-7 sm:block"
+              src="images/logo.png"
+              alt="logo"
+            />
+            <img
+              className="h-8 sm:hidden"
+              src="images/mobile-logo.png"
+              alt="logo"
+            />
+          </Link>
         </div>
-      </div>
 
-      <div className="checkout-page">
-        <div className="page-title">Review your order</div>
-
-        <div className="checkout-grid">
-          <OrderSummary cart={cart} deliveryOptions={deliveryOptions} loadCart={loadCart} />
-          <PaymentSummary paymentSummary={paymentSummary} loadCart={loadCart} />
+        <div className="text-sm font-medium sm:text-xl">
+          Checkout (
+          <Link to="/" className="text-emerald-700 underline">
+            {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
+          </Link>
+          )
         </div>
-      </div>
+
+        <div className="flex items-center justify-end md:w-52">
+          <img
+            src="images/icons/checkout-lock-icon.png"
+            alt="secure"
+            className="h-7"
+          />
+        </div>
+
+      </header>
+
+      <main className="mx-auto max-w-6xl px-4 py-8">
+        <h1 className="mb-6 text-2xl font-bold">Review your order</h1>
+
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
+          <OrderSummary
+            cart={cart}
+            deliveryOptions={deliveryOptions}
+            loadCart={loadCart}
+          />
+
+          <PaymentSummary
+            paymentSummary={paymentSummary}
+            loadCart={loadCart}
+          />
+        </div>
+      </main>
     </>
   );
 }
