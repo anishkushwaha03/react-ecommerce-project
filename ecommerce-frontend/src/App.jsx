@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useLocation } from 'react-router';
 import { HomePage } from './pages/home/HomePage.jsx';
 import { CheckoutPage } from './pages/checkout/CheckoutPage.jsx';
 import { OrdersPage } from './pages/orders/OrdersPage.jsx';
@@ -8,6 +8,15 @@ import { TrackingPage } from './pages/tracking/TrackingPage.jsx';
 import { LoginPage } from './pages/auth/LoginPage';
 import { SignupPage } from './pages/auth/SignupPage';
 import './App.css'
+
+const pageTitles = {
+  '/': 'Home | E-Commerce',
+  '/checkout': 'Checkout | E-Commerce',
+  '/orders': 'Orders | E-Commerce',
+  '/tracking': 'Tracking | E-Commerce',
+  '/login': 'Login | E-Commerce',
+  '/signup': 'Sign Up | E-Commerce',
+};
 
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
@@ -30,6 +39,7 @@ axios.interceptors.response.use(
 
 function App() {
   const [cart, setCart] = useState([]);
+  const location = useLocation();
 
   const loadCart = async () => {
     if (!localStorage.getItem('token')) {
@@ -48,6 +58,10 @@ function App() {
   useEffect(() => {
     loadCart();
   }, []);
+
+  useEffect(() => {
+    document.title = pageTitles[location.pathname] || 'E-Commerce';
+  }, [location.pathname]);
 
   return (
     <Routes>
