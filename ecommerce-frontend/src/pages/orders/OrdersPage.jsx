@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect, Fragment } from 'react';
 import { useNavigate } from 'react-router';
 import { Header } from '../../components/Header.jsx';
-import './OrdersPage.css';
+//import './OrdersPage.css';
 
 export function OrdersPage({ cart }) {
   const [orders, setOrders] = useState([]);
@@ -38,72 +38,90 @@ export function OrdersPage({ cart }) {
 
       <Header cart={cart} />
 
-      <div className="orders-page">
-        <div className="page-title">Your Orders</div>
+      <main className="mx-auto max-w-6xl px-4 pb-20 pt-24">
+        <h1 className="mb-6 text-3xl font-bold">Your Orders</h1>
 
-        <div className="orders-grid">
-          {orders.map((order) => {
-            return (
-              <div key={order.id} className="order-container">
-
-                <div className="order-header">
-                  <div className="order-header-left-section">
-                    <div className="order-date">
-                      <div className="order-header-label">Order Placed:</div>
-                      <div>{dayjs(order.orderTimeMs).format('MMMM D')}</div>
-                    </div>
-                    <div className="order-total">
-                      <div className="order-header-label">Total:</div>
-                      <div>₹{(order.totalCostCents / 100).toFixed(2)}</div>
-                    </div>
+        <div className="space-y-6">
+          {orders.map((order) => (
+            <div
+              key={order.id}
+              className="rounded border border-gray-200 bg-white shadow-sm"
+            >
+              {/* Order Header */}
+              <div className="flex flex-wrap items-center justify-between gap-4 bg-gray-100 p-4 text-sm">
+                <div className="flex gap-8">
+                  <div>
+                    <div className="font-semibold">Order Placed:</div>
+                    <div>{dayjs(order.orderTimeMs).format('MMMM D')}</div>
                   </div>
 
-                  <div className="order-header-right-section">
-                    <div className="order-header-label">Order ID:</div>
-                    <div>{order.id}</div>
+                  <div>
+                    <div className="font-semibold">Total:</div>
+                    <div>₹{(order.totalCostCents / 100).toFixed(2)}</div>
                   </div>
                 </div>
 
-                <div className="order-details-grid">
-                  {order.products.map((orderProduct) => {
-                    return (
-                      <Fragment key={orderProduct.product.id}>
-                        <div className="product-image-container">
-                          <img src={orderProduct.product.image} />
-                        </div>
-
-                        <div className="product-details">
-                          <div className="product-name">
-                            {orderProduct.product.name}
-                          </div>
-                          <div className="product-delivery-date">
-                            Arriving on: {dayjs(orderProduct.estimatedDeliveryTimeMs).format('MMMM D')}
-                          </div>
-                          <div className="product-quantity">
-                            Quantity: {orderProduct.quantity}
-                          </div>
-                          <button className="buy-again-button button-primary">
-                            <img className="buy-again-icon" src="images/icons/buy-again.png" />
-                            <span className="buy-again-message">Add to Cart</span>
-                          </button>
-                        </div>
-
-                        <div className="product-actions">
-                          <a href="/tracking">
-                            <button className="track-package-button button-secondary">
-                              Track package
-                            </button>
-                          </a>
-                        </div>
-                      </Fragment>
-                    );
-                  })}
+                <div>
+                  <div className="font-semibold">Order ID:</div>
+                  <div>{order.id}</div>
                 </div>
               </div>
-            );
-          })}
+
+              {/* Products */}
+              <div className="grid gap-6 p-4 md:grid-cols-[110px_1fr_220px]">
+                {order.products.map((orderProduct) => (
+                  <Fragment key={orderProduct.product.id}>
+                    {/* Product Image */}
+                    <div className="text-center">
+                      <img
+                        className="mx-auto max-h-27.5 max-w-27.5"
+                        src={orderProduct.product.image}
+                        alt={orderProduct.product.name}
+                      />
+                    </div>
+
+                    {/* Product Details */}
+                    <div>
+                      <div className="mb-1 font-bold">
+                        {orderProduct.product.name}
+                      </div>
+
+                      <div className="mb-1">
+                        Arriving on:{' '}
+                        {dayjs(
+                          orderProduct.estimatedDeliveryTimeMs
+                        ).format('MMMM D')}
+                      </div>
+
+                      <div className="mb-2">
+                        Quantity: {orderProduct.quantity}
+                      </div>
+
+                      <button className="flex h-9 w-36 items-center justify-center rounded bg-emerald-700 text-sm text-white hover:bg-emerald-600">
+                        <img
+                          className="mr-2 w-5"
+                          src="images/icons/buy-again.png"
+                          alt="buy again"
+                        />
+                        <span>Add to Cart</span>
+                      </button>
+                    </div>
+
+                    {/* Actions */}
+                    <div>
+                      <a href="/tracking">
+                        <button className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50">
+                          Track package
+                        </button>
+                      </a>
+                    </div>
+                  </Fragment>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      </main>
     </>
   );
 }
