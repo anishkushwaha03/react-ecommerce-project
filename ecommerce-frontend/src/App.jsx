@@ -10,12 +10,12 @@ import { SignupPage } from './pages/auth/SignupPage';
 import './App.css'
 
 const pageTitles = {
-  '/': 'Home | E-Commerce',
-  '/checkout': 'Checkout | E-Commerce',
-  '/orders': 'Orders | E-Commerce',
-  '/tracking': 'Tracking | E-Commerce',
-  '/login': 'Login | E-Commerce',
-  '/signup': 'Sign Up | E-Commerce',
+  '/': 'Home | Nexus Shop',
+  '/checkout': 'Checkout | Nexus Shop',
+  '/orders': 'Orders | Nexus Shop',
+  '/tracking': 'Tracking | Nexus Shop',
+  '/login': 'Login | Nexus Shop',
+  '/signup': 'Sign Up | Nexus Shop',
 };
 
 axios.interceptors.request.use((config) => {
