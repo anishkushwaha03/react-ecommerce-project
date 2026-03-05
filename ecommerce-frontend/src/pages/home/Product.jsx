@@ -38,12 +38,12 @@ export function Product({ product, loadCart, imageLoading = 'lazy' }) {
 
   return (
     <div className="mx-auto w-full max-w-67.5 rounded-2xl border border-neutral-700 bg-neutral-50 p-0 shadow-[10px_10px_0px_0px_rgba(0,0,0,0.14)]">
-      <div className="h-26 rounded-t-2xl bg-[#7b4738]" />
+      <div className="h-[5.5rem] rounded-t-2xl bg-[#7b4738]" />
 
-      <div className="relative -mt-20 px-5 pb-5">
-        <div className="mb-2 flex justify-center">
+      <div className="relative -mt-[4.25rem] px-5 pb-4">
+        <div className="mb-1.5 flex justify-center">
           <img
-            className="h-40 w-40 rounded-2xl object-cover"
+            className="h-36 w-36 rounded-2xl object-cover"
             src={product.image}
             alt={product.name}
             loading={imageLoading}
@@ -67,13 +67,8 @@ export function Product({ product, loadCart, imageLoading = 'lazy' }) {
           </select>
         </div>
 
-        <div className={`mb-2 flex items-center text-emerald-700 transition-opacity ${addedMessageVisible ? 'opacity-100' : 'opacity-0'}`}>
-          <img className="mr-1.5 h-5" src="images/icons/checkmark.png" alt="added" />
-          Added
-        </div>
-
         <button className="w-full rounded-full bg-[#7b4738] px-3 py-2 text-lg font-semibold text-white shadow hover:bg-[#6b3e31]" onClick={addToCart}>
-          Add to Cart
+          {addedMessageVisible ? 'Added ✓' : 'Add to Cart'}
         </button>
       </div>
     </div>
