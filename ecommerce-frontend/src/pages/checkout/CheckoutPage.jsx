@@ -37,33 +37,33 @@ export function CheckoutPage({ cart, loadCart }) {
   const totalQuantity = cart.reduce((acc, cartItem) => acc + cartItem.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen text-[#F9FAFB]">
       <title>Checkout</title>
 
-      <header className="sticky inset-x-0 top-0 z-20 border-b border-gray-200 bg-white px-4">
+      <header className="sticky inset-x-0 top-0 z-20 border-b border-[#374151] bg-[rgba(15,23,42,0.85)] px-4 shadow-lg backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between">
 
           <div className="w-auto md:w-52">
             <Link
               to="/"
-              className="inline-block rounded border border-transparent p-2 hover:border-gray-300"
+              className="inline-block rounded border border-transparent p-2 transition-colors hover:border-[#9CA3AF]"
             >
               <img
                 className="hidden h-7 sm:block"
-                src="images/logo.png"
+                src="images/logo-white.png"
                 alt="logo"
               />
               <img
                 className="h-8 sm:hidden"
-                src="images/mobile-logo.png"
+                src="images/mobile-logo-white.png"
                 alt="logo"
               />
             </Link>
           </div>
 
-          <div className="text-base font-semibold sm:text-3xl">
+          <div className="text-base font-semibold text-[#F9FAFB] sm:text-3xl">
             Checkout (
-            <Link to="/" className="text-emerald-700 underline">
+            <Link to="/" className="text-[#14B8A6] underline hover:text-[#2dd4bf]">
               {totalQuantity} {totalQuantity === 1 ? 'item' : 'items'}
             </Link>
             )

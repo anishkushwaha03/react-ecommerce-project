@@ -46,6 +46,7 @@ export function ProductsGrid({ products, loadCart }) {
             product={product}
             loadCart={loadCart}
             imageLoading={index < 4 ? 'eager' : 'lazy'}
+            animationDelayMs={index * 70}
           />
         ))}
       </div>

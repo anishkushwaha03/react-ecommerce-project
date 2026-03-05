@@ -39,16 +39,16 @@ export function OrdersPage({ cart }) {
       <Header cart={cart} />
 
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-24">
-        <h1 className="mb-6 text-3xl font-bold">Your Orders</h1>
+        <h1 className="mb-6 text-3xl font-bold text-[#F9FAFB]">Your Orders</h1>
 
         <div className="space-y-6">
           {orders.map((order) => (
             <div
               key={order.id}
-              className="rounded border border-gray-200 bg-white shadow-sm"
+              className="theme-surface border border-[#374151]"
             >
               {/* Order Header */}
-              <div className="flex flex-wrap items-center justify-between gap-4 bg-gray-100 p-4 text-sm">
+              <div className="flex flex-wrap items-center justify-between gap-4 rounded-t-xl bg-[#111827] p-4 text-sm text-[#9CA3AF]">
                 <div className="flex gap-8">
                   <div>
                     <div className="font-semibold">Order Placed:</div>
@@ -97,7 +97,7 @@ export function OrdersPage({ cart }) {
                         Quantity: {orderProduct.quantity}
                       </div>
 
-                      <button className="flex h-9 w-36 items-center justify-center rounded bg-emerald-700 text-sm text-white hover:bg-emerald-600">
+                      <button className="theme-primary-btn flex h-9 w-36 items-center justify-center text-sm">
                         <img
                           className="mr-2 w-5"
                           src="images/icons/buy-again.png"
@@ -110,7 +110,7 @@ export function OrdersPage({ cart }) {
                     {/* Actions */}
                     <div>
                       <Link to="/tracking">
-                        <button className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50">
+                        <button className="w-full rounded border border-[#374151] bg-[#111827] px-3 py-2 text-sm text-[#F9FAFB] transition-colors hover:bg-[#1f2937]">
                           Track package
                         </button>
                       </Link>

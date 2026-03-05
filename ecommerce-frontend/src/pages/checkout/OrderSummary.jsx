@@ -35,10 +35,10 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
           return (
             <div
               key={cartItem.productId}
-              className="mb-4 rounded border border-gray-300 bg-white p-5"
+              className="theme-surface mb-4 border border-[#374151] p-5"
             >
               {/* Delivery date */}
-              <div className="mb-3 text-3xl font-bold text-gray-900">
+              <div className="mb-3 text-3xl font-bold text-[#F9FAFB]">
                 Delivery date:{" "}
                 {dayjs(
                   selectedDeliveryOption.estimatedDeliveryTimeMs
@@ -57,13 +57,13 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
 
                 {/* Product Details */}
                 <div>
-                  <div className="font-bold text-gray-900">{cartItem.product.name}</div>
+                  <div className="font-bold text-[#F9FAFB]">{cartItem.product.name}</div>
 
-                  <div className="my-1 font-medium text-red-700">
+                  <div className="theme-price my-1 font-medium">
                     ₹{(cartItem.product.priceCents / 100).toFixed(2)}
                   </div>
 
-                  <div className="text-sm">
+                  <div className="theme-secondary-text text-sm">
                     Quantity:{" "}
                     <span className="font-semibold">
                       {cartItem.quantity}
@@ -73,24 +73,24 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
                   <div className="mt-3 flex items-center gap-2 text-sm">
                     <button
                       onClick={decreaseQuantity}
-                      className="h-8 w-8 rounded border border-gray-300 bg-gray-100 text-base"
+                      className="h-8 w-8 rounded border border-[#374151] bg-[#111827] text-base text-[#F9FAFB]"
                     >
                       -
                     </button>
 
-                    <span className="inline-flex h-8 min-w-10 items-center justify-center rounded border border-gray-300 px-2">
+                    <span className="inline-flex h-8 min-w-10 items-center justify-center rounded border border-[#374151] px-2 text-[#F9FAFB]">
                       {cartItem.quantity}
                     </span>
 
                     <button
                       onClick={increaseQuantity}
-                      className="h-8 w-8 rounded border border-gray-300 bg-gray-100 text-base"
+                      className="h-8 w-8 rounded border border-[#374151] bg-[#111827] text-base text-[#F9FAFB]"
                     >
                       +
                     </button>
 
                     <button
-                      className="ml-1 cursor-pointer text-gray-500 hover:text-red-700"
+                      className="ml-1 cursor-pointer text-[#9CA3AF] hover:text-[#F9FAFB]"
                       onClick={deleteCartItem}
                     >
                       🗑
