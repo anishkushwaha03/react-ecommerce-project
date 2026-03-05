@@ -30,12 +30,12 @@ export function LoginPage() {
   };
 
   return (
-    <div className="mx-auto mt-16 max-w-md p-8">
-      <h2 className="mb-4 text-3xl font-bold">Login</h2>
+    <div className="theme-surface mx-auto mt-24 max-w-md p-8">
+      <h2 className="mb-4 text-3xl font-bold text-[#F9FAFB]">Login</h2>
 
       <form onSubmit={handleLogin} className="flex flex-col gap-4">
         <input
-          className="rounded border border-gray-300 px-3 py-2"
+          className="theme-input"
           type="email"
           placeholder="Email"
           value={email}
@@ -44,7 +44,7 @@ export function LoginPage() {
         />
 
         <input
-          className="rounded border border-gray-300 px-3 py-2"
+          className="theme-input"
           type="password"
           placeholder="Password"
           value={password}
@@ -53,16 +53,16 @@ export function LoginPage() {
         />
 
         <button
-          className="rounded bg-emerald-700 px-3 py-2 text-white hover:bg-emerald-600"
+          className="theme-primary-btn"
           type="submit"
         >
           Log In
         </button>
       </form>
 
-      <p className="mt-4">
+      <p className="mt-4 text-[#9CA3AF]">
         Don't have an account?{" "}
-        <Link className="text-emerald-700 underline" to="/signup">
+        <Link className="text-[#F9FAFB] underline hover:text-white" to="/signup">
           Sign up
         </Link>
       </p>
