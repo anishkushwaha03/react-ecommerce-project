@@ -1,1 +1,52 @@
 @import "tailwindcss";
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#020617] text-[#F9FAFB];
+  }
+}
+
+@layer components {
+  .app-shell {
+    @apply min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#020617] text-[#F9FAFB];
+  }
+
+  .theme-surface {
+    @apply rounded-xl bg-[#1F2937] text-[#F9FAFB] shadow-lg;
+  }
+
+  .theme-secondary-text {
+    @apply text-[#9CA3AF];
+  }
+
+  .theme-price {
+    @apply text-[#14B8A6];
+  }
+
+  .theme-primary-btn {
+    @apply rounded bg-[#F97316] px-3 py-2 text-white transition-all duration-100 ease-out hover:bg-[#EA580C] active:scale-95;
+  }
+
+  .theme-input {
+    @apply rounded border border-[#374151] bg-[#111827] px-3 py-2 text-[#F9FAFB] outline-none placeholder:text-[#9CA3AF] focus:border-[#3B82F6];
+  }
+}
+
+@layer utilities {
+  @keyframes card-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-card-fade-up {
+    animation: card-fade-up 0.55s ease-out both;
+    will-change: transform, opacity;
+  }
+}

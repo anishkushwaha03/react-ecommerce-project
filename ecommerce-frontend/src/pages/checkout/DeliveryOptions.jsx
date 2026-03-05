@@ -4,7 +4,7 @@ import axios from "axios";
 export function DeliveryOptions({ cartItem, deliveryOptions, loadCart }) {
   return (
     <div>
-      <div className="mb-2 font-semibold text-gray-900">Choose a delivery option:</div>
+      <div className="mb-2 font-semibold text-[#F9FAFB]">Choose a delivery option:</div>
 
       {deliveryOptions.map((deliveryOption) => {
         let priceString = "FREE Shipping";
@@ -36,13 +36,13 @@ export function DeliveryOptions({ cartItem, deliveryOptions, loadCart }) {
             />
 
             <div>
-              <div className="font-semibold text-gray-900">
+              <div className="font-semibold text-[#F9FAFB]">
                 {dayjs(deliveryOption.estimatedDeliveryTimeMs).format(
                   "dddd, MMMM D"
                 )}
               </div>
 
-              <div className="text-sm text-gray-600">{priceString}</div>
+              <div className="text-sm text-[#9CA3AF]">{priceString}</div>
             </div>
           </div>
         );

@@ -29,12 +29,12 @@ export function SignupPage() {
   };
 
   return (
-    <div className="mx-auto mt-16 max-w-md p-8">
-      <h2 className="mb-4 text-3xl font-bold">Sign Up</h2>
+    <div className="theme-surface mx-auto mt-24 max-w-md p-8">
+      <h2 className="mb-4 text-3xl font-bold text-[#F9FAFB]">Sign Up</h2>
 
       <form onSubmit={handleSignup} className="flex flex-col gap-4">
         <input
-          className="rounded border border-gray-300 px-3 py-2"
+          className="theme-input"
           type="text"
           placeholder="Name"
           value={name}
@@ -43,7 +43,7 @@ export function SignupPage() {
         />
 
         <input
-          className="rounded border border-gray-300 px-3 py-2"
+          className="theme-input"
           type="email"
           placeholder="Email"
           value={email}
@@ -52,7 +52,7 @@ export function SignupPage() {
         />
 
         <input
-          className="rounded border border-gray-300 px-3 py-2"
+          className="theme-input"
           type="password"
           placeholder="Password"
           value={password}
@@ -61,16 +61,16 @@ export function SignupPage() {
         />
 
         <button
-          className="rounded bg-emerald-700 px-3 py-2 text-white hover:bg-emerald-600"
+          className="theme-primary-btn"
           type="submit"
         >
           Sign Up
         </button>
       </form>
 
-      <p className="mt-4">
+      <p className="mt-4 text-[#9CA3AF]">
         Already have an account?{" "}
-        <Link className="text-emerald-700 underline" to="/login">
+        <Link className="text-[#F9FAFB] underline hover:text-white" to="/login">
           Log in
         </Link>
       </p>
