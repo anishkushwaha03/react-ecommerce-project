@@ -41,7 +41,7 @@ export function Product({ product, loadCart, imageLoading = 'lazy' }) {
       <div className="h-26 rounded-t-2xl bg-[#7b4738]" />
 
       <div className="relative -mt-20 px-5 pb-5">
-        <div className="mb-4 flex justify-center">
+        <div className="mb-2 flex justify-center">
           <img
             className="h-40 w-40 rounded-2xl object-cover"
             src={product.image}
@@ -50,17 +50,17 @@ export function Product({ product, loadCart, imageLoading = 'lazy' }) {
           />
         </div>
 
-        <div className="mb-3 line-clamp-2 min-h-12 text-3xl/7 font-bold text-neutral-900">{product.name}</div>
+        <div className="mb-2 line-clamp-2 min-h-12 text-lg/7 font-bold text-neutral-900">{product.name}</div>
 
-        <div className="mb-3 flex items-center gap-2">
+        <div className="mb-2 flex items-center gap-2">
           <img className="w-24" src={`images/ratings/rating-${product.rating.stars * 10}.png`} alt="rating" />
           <div className="text-xl text-emerald-700">{product.rating.count}</div>
         </div>
 
-        <div className="mb-4 flex items-end justify-between gap-3">
-          <div className="text-5xl font-bold text-neutral-900">₹{(product.priceCents / 100).toFixed(2)}</div>
+        <div className="mb-1 flex items-end justify-between gap-3">
+          <div className="text-2xl font-bold text-neutral-900">₹{(product.priceCents / 100).toFixed(2)}</div>
 
-          <select className="h-9 rounded border border-neutral-400 bg-white px-3" value={quantity} onChange={selectQuantity}>
+          <select className="h-8 rounded border border-neutral-400 bg-white px-3" value={quantity} onChange={selectQuantity}>
             {Array.from({ length: 10 }, (_, i) => i + 1).map((value) => (
               <option key={value} value={value}>{value}</option>
             ))}
