@@ -37,10 +37,10 @@ export function Product({ product, loadCart, imageLoading = 'lazy' }) {
   };
 
   return (
-    <div className="mx-auto w-full max-w-67.5 rounded-2xl border border-neutral-700 bg-neutral-50 p-0 shadow-[10px_10px_0px_0px_rgba(0,0,0,0.14)]">
-      <div className="h-[5.5rem] rounded-t-2xl bg-[#7b4738]" />
+    <div className="mx-auto w-full max-w-67.5 rounded-2xl border border-neutral-700 bg-gray-500 p-0 shadow-[10px_10px_0px_0px_rgba(0,0,0,0.14)]">
+      <div className="h-22 rounded-t-2xl bg-[#7b4738]" />
 
-      <div className="relative -mt-[4.25rem] px-5 pb-4">
+      <div className="relative -mt-17 px-5 pb-4">
         <div className="mb-1.5 flex justify-center">
           <img
             className="h-36 w-36 rounded-2xl object-cover"
@@ -50,14 +50,14 @@ export function Product({ product, loadCart, imageLoading = 'lazy' }) {
           />
         </div>
 
-        <div className="mb-2 line-clamp-2 min-h-12 text-lg/7 font-bold text-neutral-900">{product.name}</div>
+        <div className="mb-2 line-clamp-2 min-h-14 text-lg/7 font-bold text-neutral-900">{product.name}</div>
 
         <div className="mb-2 flex items-center gap-2">
           <img className="w-24" src={`images/ratings/rating-${product.rating.stars * 10}.png`} alt="rating" />
           <div className="text-xl text-emerald-700">{product.rating.count}</div>
         </div>
 
-        <div className="mb-1 flex items-end justify-between gap-3">
+        <div className="mb-3 flex items-end justify-between gap-3">
           <div className="text-2xl font-bold text-neutral-900">₹{(product.priceCents / 100).toFixed(2)}</div>
 
           <select className="h-8 rounded border border-neutral-400 bg-white px-3" value={quantity} onChange={selectQuantity}>
