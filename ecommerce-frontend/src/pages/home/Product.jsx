@@ -56,7 +56,7 @@ export function Product({ product, loadCart, imageLoading = 'lazy', animationDel
         <div className="mb-2 line-clamp-2 min-h-12 text-lg/7 font-bold text-[#F9FAFB]">{product.name}</div>
 
         <div className="mb-2 flex items-center gap-2">
-          <img className="w-24" src={`//images/ratings/rating-${product.rating.stars * 10}.png`} alt="rating" />
+          <img className="w-24" src={`/images/ratings/rating-${product.rating.stars * 10}.png`} alt="rating" />
           <div className="text-xl text-[#14B8A6]">{product.rating.count}</div>
         </div>
 
