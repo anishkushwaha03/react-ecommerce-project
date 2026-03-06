@@ -50,12 +50,12 @@ export function CheckoutPage({ cart, loadCart }) {
             >
               <img
                 className="hidden h-7 sm:block"
-                src="images/logo-white.png"
+                src="/images/logo-white.png"
                 alt="logo"
               />
               <img
                 className="h-8 sm:hidden"
-                src="images/mobile-logo-white.png"
+                src="/images/mobile-logo-white.png"
                 alt="logo"
               />
             </Link>
@@ -71,7 +71,7 @@ export function CheckoutPage({ cart, loadCart }) {
 
           <div className="flex items-center justify-end md:w-52">
             <img
-              src="images/icons/checkout-lock-icon.png"
+              src="/images/icons/checkout-lock-icon.png"
               alt="secure"
               className="h-7"
             />

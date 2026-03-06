@@ -133,7 +133,7 @@ export function OrdersPage({ cart, loadCart }) {
                       <button className="theme-primary-btn flex h-9 w-36 items-center justify-center text-sm disabled:cursor-not-allowed disabled:opacity-60" onClick={() => handleAddToCart(orderProduct)} disabled={isAddingProductId === orderProduct.product.id}>
                         <img
                           className="mr-2 w-5"
-                          src="images/icons/buy-again.png"
+                          src="/images/icons/buy-again.png"
                           alt="buy again"
                         />
                         <span>{isAddingProductId === orderProduct.product.id ? "Adding..." : "Add to Cart"}</span>

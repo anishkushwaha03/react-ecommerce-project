@@ -16,7 +16,7 @@ export function TrackingPage({ cart }) {
           <div className="mb-1 text-[#9CA3AF]">Black and Gray Athletic Cotton Socks - 6 Pairs</div>
           <div className="mb-1 text-[#9CA3AF]">Quantity: 1</div>
 
-          <img className="my-8 max-h-37.5 max-w-37.5" src="images/products/athletic-cotton-socks-6-pairs.jpg" alt="tracked product" />
+          <img className="my-8 max-h-37.5 max-w-37.5" src="/images/products/athletic-cotton-socks-6-pairs.jpg" alt="tracked product" />
 
           <div className="mb-4 flex flex-col justify-between gap-2 text-lg font-medium sm:flex-row sm:text-xl">
             <div>Preparing</div>
