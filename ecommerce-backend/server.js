@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -26,7 +29,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
-app.use(cors());
+const corsOrigin = process.env.FRONTEND_URL;
+
+if (typeof corsOrigin !== 'string' || corsOrigin.trim() === '') {
+  throw new Error('Configuration error: FRONTEND_URL must be set when CORS credentials are enabled.');
+}
+
+app.use(cors({
+  origin: corsOrigin,
+  credentials: true
+}));
 app.use(express.json());
 
 // Serve images from the images folder
@@ -39,7 +51,7 @@ app.use('/api/cart-items', cartItemRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/reset', resetRoutes);
 app.use('/api/payment-summary', paymentSummaryRoutes);
-app.use('/api/auth', authRoutes); 
+app.use('/api/auth', authRoutes);
 
 // Serve static files from the dist folder
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -105,8 +117,8 @@ if (productCount === 0) {
   // Use Mongoose insertMany instead of Sequelize bulkCreate
   await Product.insertMany(productsWithTimestamps);
   await DeliveryOption.insertMany(deliveryOptionsWithTimestamps);
-  await CartItem.insertMany(cartItemsWithTimestamps);
-  await Order.insertMany(ordersWithTimestamps);
+  //await CartItem.insertMany(cartItemsWithTimestamps);
+  //await Order.insertMany(ordersWithTimestamps);
 
   console.log('Default data added to the MongoDB database.');
 }
