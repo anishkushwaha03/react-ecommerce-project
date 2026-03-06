@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useState, useEffect, Fragment } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { Header } from '../../components/Header.jsx';
-//import './OrdersPage.css';
 
 export function OrdersPage({ cart }) {
   const [orders, setOrders] = useState([]);
@@ -45,7 +44,7 @@ export function OrdersPage({ cart }) {
           {orders.map((order) => (
             <div
               key={order.id}
-              className="theme-surface border border-[#374151]"
+              className="animate-card-fade-up theme-surface border border-[#374151]"
             >
               {/* Order Header */}
               <div className="flex flex-wrap items-center justify-between gap-4 rounded-t-xl bg-[#111827] p-4 text-sm text-[#9CA3AF]">

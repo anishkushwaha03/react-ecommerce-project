@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Product } from './Product';
 
-const INITIAL_BATCH_SIZE = 8;
+const INITIAL_BATCH_SIZE = 4;
 const LOAD_MORE_BATCH_SIZE = 8;
 
 export function ProductsGrid({ products, loadCart }) {

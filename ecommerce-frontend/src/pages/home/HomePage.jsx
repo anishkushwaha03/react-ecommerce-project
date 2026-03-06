@@ -33,8 +33,17 @@ export function HomePage({ cart, loadCart }) {
       <main className="pt-16">
         {!searchQuery && (
           <section className="px-6 py-20 text-center md:py-28">
-            <h1 className="mb-2 text-5xl font-bold text-[#F9FAFB] md:text-7xl">Nexus Shop</h1>
-            <p className="text-3xl font-semibold text-[#9CA3AF] md:text-6xl">Everything you need, delivered smarter</p>
+            <div className="reveal-wrapper py-1">
+              <h1 className="animate-reveal-up text-5xl font-bold text-[#F9FAFB] leading-[1.15] md:text-7xl">
+                Nexus Shop
+              </h1>
+            </div>
+
+            <div className="reveal-wrapper py-2">
+              <p className="animate-reveal-up-delay text-3xl font-semibold text-[#9CA3AF] leading-[1.15] md:text-6xl">
+                Everything you need, delivered smarter
+              </p>
+            </div>
           </section>
         )}
 
