@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "${BACKEND_URL}/api/:path*"
+      "destination": "https://react-ecommerce-project-3ysr.onrender.com/api/:path*"
     },
     {
       "source": "/images/:path*",
-      "destination": "${BACKEND_URL}//images/:path*"
+      "destination": "https://react-ecommerce-project-3ysr.onrender.com/images/:path*"
     }
   ]
 }
