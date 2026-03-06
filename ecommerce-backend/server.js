@@ -111,8 +111,8 @@ if (productCount === 0) {
   // Use Mongoose insertMany instead of Sequelize bulkCreate
   await Product.insertMany(productsWithTimestamps);
   await DeliveryOption.insertMany(deliveryOptionsWithTimestamps);
-  await CartItem.insertMany(cartItemsWithTimestamps);
-  await Order.insertMany(ordersWithTimestamps);
+  //await CartItem.insertMany(cartItemsWithTimestamps);
+  //await Order.insertMany(ordersWithTimestamps);
 
   console.log('Default data added to the MongoDB database.');
 }
