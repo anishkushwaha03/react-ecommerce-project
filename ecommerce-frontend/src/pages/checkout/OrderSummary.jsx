@@ -1,10 +1,22 @@
 import axios from "axios";
 import dayjs from "dayjs";
+import { useState } from "react";
 import { DeliveryOptions } from "./DeliveryOptions";
 
+const MAX_QUANTITY = 10;
+
 export function OrderSummary({ cart, deliveryOptions, loadCart }) {
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isUpdatingProductId, setIsUpdatingProductId] = useState(null);
+
   return (
     <div>
+      {errorMessage && (
+        <div className="mb-4 rounded border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-300">
+          {errorMessage}
+        </div>
+      )}
+
       {deliveryOptions.length > 0 &&
         cart.map((cartItem) => {
           const selectedDeliveryOption = deliveryOptions.find(
@@ -12,14 +24,40 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
               deliveryOption.id === cartItem.deliveryOptionId
           );
 
+          const isUpdating = isUpdatingProductId === cartItem.productId;
+
           const deleteCartItem = async () => {
-            await axios.delete(`/api/cart-items/${cartItem.productId}`);
-            await loadCart();
+            if (isUpdating) return;
+
+            setErrorMessage("");
+            setIsUpdatingProductId(cartItem.productId);
+
+            try {
+              await axios.delete(`/api/cart-items/${cartItem.productId}`);
+              await loadCart();
+            } catch (error) {
+              console.error("Failed to delete cart item:", error);
+              setErrorMessage("Unable to remove item from cart. Please try again.");
+            } finally {
+              setIsUpdatingProductId(null);
+            }
           };
 
           const updateQuantity = async (quantity) => {
-            await axios.put(`/api/cart-items/${cartItem.productId}`, { quantity });
-            await loadCart();
+            if (isUpdating) return;
+
+            setErrorMessage("");
+            setIsUpdatingProductId(cartItem.productId);
+
+            try {
+              await axios.put(`/api/cart-items/${cartItem.productId}`, { quantity });
+              await loadCart();
+            } catch (error) {
+              console.error("Failed to update cart item quantity:", error);
+              setErrorMessage("Unable to update quantity. Please try again.");
+            } finally {
+              setIsUpdatingProductId(null);
+            }
           };
 
           const decreaseQuantity = () => {
@@ -29,6 +67,11 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
           };
 
           const increaseQuantity = () => {
+            if (cartItem.quantity >= MAX_QUANTITY) {
+              setErrorMessage(`You can only add up to ${MAX_QUANTITY} units of this item.`);
+              return;
+            }
+
             updateQuantity(cartItem.quantity + 1);
           };
 
@@ -40,9 +83,9 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
               {/* Delivery date */}
               <div className="mb-3 text-3xl font-bold text-[#F9FAFB]">
                 Delivery date:{" "}
-                {dayjs(
-                  selectedDeliveryOption.estimatedDeliveryTimeMs
-                ).format("dddd, MMMM D")}
+                {selectedDeliveryOption?.estimatedDeliveryTimeMs
+                  ? dayjs(selectedDeliveryOption.estimatedDeliveryTimeMs).format("dddd, MMMM D")
+                  : "TBD"}
               </div>
 
               {/* Product Grid */}
@@ -73,7 +116,8 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
                   <div className="mt-3 flex items-center gap-2 text-sm">
                     <button
                       onClick={decreaseQuantity}
-                      className="h-8 w-8 rounded border border-[#374151] bg-[#111827] text-base text-[#F9FAFB]"
+                      className="h-8 w-8 rounded border border-[#374151] bg-[#111827] text-base text-[#F9FAFB] disabled:cursor-not-allowed disabled:opacity-50"
+                      disabled={isUpdating}
                     >
                       -
                     </button>
@@ -84,14 +128,16 @@ export function OrderSummary({ cart, deliveryOptions, loadCart }) {
 
                     <button
                       onClick={increaseQuantity}
-                      className="h-8 w-8 rounded border border-[#374151] bg-[#111827] text-base text-[#F9FAFB]"
+                      className="h-8 w-8 rounded border border-[#374151] bg-[#111827] text-base text-[#F9FAFB] disabled:cursor-not-allowed disabled:opacity-50"
+                      disabled={isUpdating}
                     >
                       +
                     </button>
 
                     <button
-                      className="ml-1 cursor-pointer text-[#9CA3AF] hover:text-[#F9FAFB]"
+                      className="ml-1 cursor-pointer text-[#9CA3AF] hover:text-[#F9FAFB] disabled:cursor-not-allowed disabled:opacity-50"
                       onClick={deleteCartItem}
+                      disabled={isUpdating}
                     >
                       🗑
                     </button>

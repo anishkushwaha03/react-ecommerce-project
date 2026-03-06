@@ -6,12 +6,15 @@ import { useSearchParams } from 'react-router';
 
 export function HomePage({ cart, loadCart }) {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
 
   useEffect(() => {
     const getHomeData = async () => {
+      setLoading(true);
+
       try {
         const url = searchQuery
           ? `/api/products?search=${encodeURIComponent(searchQuery)}`
@@ -21,6 +24,8 @@ export function HomePage({ cart, loadCart }) {
         setProducts(response.data);
       } catch (error) {
         console.error('Failed to fetch products:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -47,10 +52,12 @@ export function HomePage({ cart, loadCart }) {
           </section>
         )}
 
-        {products.length === 0 ? (
-          <p className="mt-10 pb-12 text-center text-lg text-[#9CA3AF]">No products found matching "{searchQuery}"</p>
-        ) : (
+        {loading ? (
+          <p className="mt-10 pb-12 text-center text-lg text-[#9CA3AF]">Loading products...</p>
+        ) : products.length > 0 ? (
           <ProductsGrid products={products} loadCart={loadCart} />
+        ) : (
+          <p className="mt-10 pb-12 text-center text-lg text-[#9CA3AF]">No products found matching "{searchQuery}"</p>
         )}
       </main>
     </>
