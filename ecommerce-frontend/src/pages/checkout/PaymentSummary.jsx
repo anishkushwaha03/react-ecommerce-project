@@ -1,13 +1,25 @@
 import { useNavigate } from "react-router";
+import { useState } from "react";
 import axios from "axios";
 
 export function PaymentSummary({ paymentSummary, loadCart }) {
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const createOrder = async () => {
-    await axios.post("/api/orders");
-    await loadCart();
-    navigate("/orders");
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await axios.post("/api/orders");
+      await loadCart();
+      navigate("/orders");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -51,8 +63,8 @@ export function PaymentSummary({ paymentSummary, loadCart }) {
             </div>
           </div>
 
-          <button className="theme-primary-btn w-full" onClick={createOrder}>
-            Place your order
+          <button className="theme-primary-btn w-full disabled:cursor-not-allowed disabled:opacity-60" onClick={createOrder} disabled={isSubmitting}>
+            {isSubmitting ? "Placing order..." : "Place your order"}
           </button>
         </>
       )}

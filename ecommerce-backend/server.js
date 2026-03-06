@@ -29,8 +29,14 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware
+const corsOrigin = process.env.FRONTEND_URL;
+
+if (typeof corsOrigin !== 'string' || corsOrigin.trim() === '') {
+  throw new Error('Configuration error: FRONTEND_URL must be set when CORS credentials are enabled.');
+}
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || '*',
+  origin: corsOrigin,
   credentials: true
 }));
 app.use(express.json());

@@ -38,12 +38,12 @@ export function Product({ product, loadCart, imageLoading = 'lazy', animationDel
 
   return (
     <div
-      className="animate-card-fade-up group mx-auto w-full max-w-67.5 rounded-xl bg-[#1F2937] p-0 text-[#F9FAFB] shadow-lg transition-all duration-200 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
+      className="animate-card-fade-up group mx-auto w-full max-w-[67.5rem] rounded-xl bg-[#1F2937] p-0 text-[#F9FAFB] shadow-lg transition-all duration-200 ease-out hover:-translate-y-1.5 hover:shadow-2xl"
       style={{ animationDelay: `${animationDelayMs}ms` }}
     >
       <div className="h-[5.5rem] rounded-t-xl bg-[#111827]" />
 
-      <div className="relative -mt-17 px-5 pb-4">
+      <div className="relative -mt-[4.25rem] px-5 pb-4">
         <div className="mb-1.5 flex justify-center">
           <img
             className="h-36 w-36 rounded-2xl object-cover transition-transform duration-300 ease-out group-hover:scale-105"

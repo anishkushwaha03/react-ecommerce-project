@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 export function TrackingPage({ cart }) {
   return (
     <>
-      <Header cart={[]} />
+      <Header cart={cart} />
       <main className="mx-auto mt-24 max-w-4xl px-6 pb-24">
         <div>
           <Link className="inline-block pb-7 text-[#14B8A6] hover:text-[#2dd4bf]" to="/orders">

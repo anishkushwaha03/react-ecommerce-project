@@ -30,7 +30,7 @@ export function DeliveryOptions({ cartItem, deliveryOptions, loadCart }) {
             <input
               type="radio"
               checked={deliveryOption.id === cartItem.deliveryOptionId}
-              onChange={() => {}}
+              onChange={updateDeliveryOption}
               className="mt-1"
               name={`delivery-option-${cartItem.productId}`}
             />
