@@ -14,7 +14,7 @@ export function SignupPage() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/register",
+        "/api/auth/register",
         { name, email, password }
       );
 
