@@ -32,8 +32,8 @@ export function Header({ cart }) {
     <header className="fixed inset-x-0 top-0 z-20 flex h-16 items-center justify-between bg-[rgba(15,23,42,0.85)] px-4 text-[#F9FAFB] shadow-lg backdrop-blur">
       <div className="w-auto md:w-52">
         <Link to="/" className="inline-block rounded border border-transparent p-2 transition-colors hover:border-[#F9FAFB]">
-          <img className="hidden h-7 sm:block" src="//images/logo-white.png" alt="Nexus Shop logo" />
-          <img className="h-8 sm:hidden" src="//images/mobile-logo-white.png" alt="Nexus Shop logo" />
+          <img className="hidden h-7 sm:block" src="/images/logo-white.png" alt="Nexus Shop logo" />
+          <img className="h-8 sm:hidden" src="/images/mobile-logo-white.png" alt="Nexus Shop logo" />
         </Link>
       </div>
 
@@ -47,7 +47,7 @@ export function Header({ cart }) {
           onKeyDown={handleKeyDown} />
 
         <button className="h-10 rounded-r-md bg-[#F97316] px-4 transition-all duration-100 hover:bg-[#EA580C] active:scale-95" onClick={handleSearch}>
-          <img className="h-5 w-5" src="//images/icons/search-icon.png" alt="Search" />
+          <img className="h-5 w-5" src="/images/icons/search-icon.png" alt="Search" />
         </button>
       </div>
 
