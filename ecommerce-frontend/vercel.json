@@ -7,6 +7,10 @@
     {
       "source": "/images/:path*",
       "destination": "https://react-ecommerce-project-3ysr.onrender.com/images/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

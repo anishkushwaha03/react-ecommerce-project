@@ -25,7 +25,7 @@ export function Header({ cart }) {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/login'; // Force redirect to login
+    navigate('/login'); // Force redirect to login
   };
 
   return (
