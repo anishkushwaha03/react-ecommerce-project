@@ -81,16 +81,28 @@ export function CheckoutPage({ cart, loadCart }) {
 
       <main className="mx-auto max-w-6xl px-4 py-6">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
-          <OrderSummary
-            cart={cart}
-            deliveryOptions={deliveryOptions}
-            loadCart={loadCart}
-          />
+          
+          {/* If data is missing, show spinner across both columns */}
+          {!paymentSummary || deliveryOptions.length === 0 ? (
+            <div className="col-span-1 flex items-center justify-center py-32 lg:col-span-2">
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#14B8A6] border-t-transparent"></div>
+            </div>
+          ) : (
+            /* Once data arrives, show the components */
+            <>
+              <OrderSummary
+                cart={cart}
+                deliveryOptions={deliveryOptions}
+                loadCart={loadCart}
+              />
 
-          <PaymentSummary
-            paymentSummary={paymentSummary}
-            loadCart={loadCart}
-          />
+              <PaymentSummary
+                paymentSummary={paymentSummary}
+                loadCart={loadCart}
+              />
+            </>
+          )}
+
         </div>
       </main>
     </div>

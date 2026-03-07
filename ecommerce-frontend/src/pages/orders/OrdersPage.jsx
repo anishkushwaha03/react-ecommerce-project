@@ -4,10 +4,8 @@ import { useState, useEffect, Fragment } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { Header } from '../../components/Header.jsx';
 
-export function OrdersPage({ cart, loadCart }) {
+export function OrdersPage({ cart }) {
   const [orders, setOrders] = useState([]);
-  const [isAddingProductId, setIsAddingProductId] = useState(null);
-  const [addToCartError, setAddToCartError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,32 +13,6 @@ export function OrdersPage({ cart, loadCart }) {
       navigate('/login');
     }
   }, [navigate]);
-
-
-  const handleAddToCart = async (orderProduct) => {
-    if (isAddingProductId) {
-      return;
-    }
-
-    try {
-      setAddToCartError('');
-      setIsAddingProductId(orderProduct.product.id);
-
-      await axios.post('/api/cart-items', {
-        productId: orderProduct.product.id,
-        quantity: orderProduct.quantity
-      });
-
-      if (typeof loadCart === 'function') {
-        await loadCart();
-      }
-    } catch (error) {
-      console.error('Failed to add order item to cart:', error);
-      setAddToCartError('Unable to add this item to your cart. Please try again.');
-    } finally {
-      setIsAddingProductId(null);
-    }
-  };
 
   useEffect(() => {
     // Wrap in an async function to use try/catch
@@ -67,12 +39,6 @@ export function OrdersPage({ cart, loadCart }) {
 
       <main className="mx-auto max-w-6xl px-4 pb-20 pt-24">
         <h1 className="mb-6 text-3xl font-bold text-[#F9FAFB]">Your Orders</h1>
-
-        {addToCartError && (
-          <div className="mb-4 rounded border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-300">
-            {addToCartError}
-          </div>
-        )}
 
         <div className="space-y-6">
           {orders.map((order) => (
@@ -129,15 +95,6 @@ export function OrdersPage({ cart, loadCart }) {
                       <div className="mb-2">
                         Quantity: {orderProduct.quantity}
                       </div>
-
-                      <button className="theme-primary-btn flex h-9 w-36 items-center justify-center text-sm disabled:cursor-not-allowed disabled:opacity-60" onClick={() => handleAddToCart(orderProduct)} disabled={isAddingProductId === orderProduct.product.id}>
-                        <img
-                          className="mr-2 w-5"
-                          src="/images/icons/buy-again.png"
-                          alt="buy again"
-                        />
-                        <span>{isAddingProductId === orderProduct.product.id ? "Adding..." : "Add to Cart"}</span>
-                      </button>
                     </div>
 
                     {/* Actions */}

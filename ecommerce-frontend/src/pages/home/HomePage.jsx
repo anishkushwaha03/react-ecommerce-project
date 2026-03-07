@@ -53,7 +53,9 @@ export function HomePage({ cart, loadCart }) {
         )}
 
         {loading ? (
-          <p className="mt-10 pb-12 text-center text-lg text-[#9CA3AF]">Loading products...</p>
+          <div className="mt-10 flex items-center justify-center pb-12">
+            <div className="h-12 w-12 animate-spin rounded-full border-4 border-[#14B8A6] border-t-transparent"></div>
+          </div>
         ) : products.length > 0 ? (
           <ProductsGrid products={products} loadCart={loadCart} />
         ) : (
