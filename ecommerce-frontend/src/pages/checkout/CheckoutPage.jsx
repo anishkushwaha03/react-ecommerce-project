@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { OrderSummary } from './OrderSummary';
 import { PaymentSummary } from './PaymentSummary';
 import { Link } from 'react-router';
 
 export function CheckoutPage({ cart, loadCart }) {
   const [deliveryOptions, setDeliveryOptions] = useState([]);
-  const [paymentSummary, setPaymentSummary] = useState(null);
 
   useEffect(() => {
     const fetchDeliveryOptions = async () => {
@@ -21,18 +20,38 @@ export function CheckoutPage({ cart, loadCart }) {
     fetchDeliveryOptions();
   }, []);
 
-  useEffect(() => {
-    const fetchPaymentSummary = async () => {
-      try {
-        const response = await axios.get('/api/payment-summary');
-        setPaymentSummary(response.data);
-      } catch (error) {
-        console.error("Error fetching payment summary:", error);
-      }
-    };
+  // Calculate payment summary instantly on the frontend instead of fetching from the API
+  const paymentSummary = useMemo(() => {
+    if (!cart.length || !deliveryOptions.length) return null;
 
-    fetchPaymentSummary();
-  }, [cart]);
+    let totalItems = 0;
+    let productCostCents = 0;
+    let shippingCostCents = 0;
+
+    cart.forEach((cartItem) => {
+      const product = cartItem.product;
+      const deliveryOption = deliveryOptions.find((d) => d.id === cartItem.deliveryOptionId);
+
+      if (product && deliveryOption) {
+        totalItems += cartItem.quantity;
+        productCostCents += product.priceCents * cartItem.quantity;
+        shippingCostCents += deliveryOption.priceCents;
+      }
+    });
+
+    const totalCostBeforeTaxCents = productCostCents + shippingCostCents;
+    const taxCents = Math.round(totalCostBeforeTaxCents * 0.1);
+    const totalCostCents = totalCostBeforeTaxCents + taxCents;
+
+    return {
+      totalItems,
+      productCostCents,
+      shippingCostCents,
+      totalCostBeforeTaxCents,
+      taxCents,
+      totalCostCents
+    };
+  }, [cart, deliveryOptions]);
 
   const totalQuantity = cart.reduce((acc, cartItem) => acc + cartItem.quantity, 0);
 
